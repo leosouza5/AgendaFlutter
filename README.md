@@ -1,16 +1,8 @@
-# agenda
+# Agenda em Flutter
 
-A new Flutter project.
+Projeto para a disciplina de Programação para Dispositivos Moveis
+## Como Utilizar
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ - Tenha o SDK do flutter instalado
+ - Abra o projeto no VSCODE
+ - Escolha o emulador que ira utilizar e rode o projeto em modo debug.
