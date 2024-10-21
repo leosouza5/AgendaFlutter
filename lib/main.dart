@@ -1,5 +1,6 @@
 import 'package:agenda/features/contato/controller/contato_controller.dart';
-import 'package:agenda/features/home/pages/home_screen.dart';
+import 'package:agenda/features/telaDeLogin/controller/auth_controller.dart';
+import 'package:agenda/features/telaDeLogin/pages/tela_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ContatoController()),
+        ChangeNotifierProvider(create: (context) => AuthController()),
       ],
       child: MaterialApp(
           title: 'Agenda',
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,
-          home: const HomeScreen()),
+          home: const TelaLogin()),
     );
   }
 }

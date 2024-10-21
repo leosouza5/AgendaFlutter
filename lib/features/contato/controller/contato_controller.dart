@@ -11,7 +11,7 @@ class ContatoController extends ChangeNotifier {
 
   List<ContatoModel> listaDeContatos = [];
 
-  void criaContato(BuildContext context) async {
+  Future<void> criaContato(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       try {
         final db = DatabaseService.instance;
@@ -25,8 +25,6 @@ class ContatoController extends ChangeNotifier {
         await recuperaContato();
         Navigator.pop(context);
       } catch (e) {
-        print("ERROOOOOOOOOOOOOOO");
-        print(e.toString());
         rethrow;
       }
     }

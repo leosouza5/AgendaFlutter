@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agenda/features/contato/model/contato_model.dart';
+import 'package:agenda/features/telaDeLogin/model/usuario_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,6 +12,7 @@ class DatabaseService {
   static final DatabaseService instance = DatabaseService._constructor();
 
   final String nomeDaTabela = "tb_contatos";
+  final String nomeDaTabelaUsuario = "tb_usuario";
 
   Future<Database> get database async {
     if (_db != null) {
@@ -30,6 +32,13 @@ class DatabaseService {
       databasePath,
       onCreate: (db, version) {
         db.execute('''
+          CREATE TABLE $nomeDaTabelaUsuario(
+            id INTEGER PRIMARY KEY,
+            usuario TEXT NOT NULL,
+            senha TEXT NOT NULL
+          )
+        ''');
+        db.execute('''
           CREATE TABLE $nomeDaTabela(
             id INTEGER PRIMARY KEY,
             nome TEXT NOT NULL,
@@ -38,8 +47,41 @@ class DatabaseService {
           )
         ''');
       },
+      onOpen: (db) async {
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS $nomeDaTabelaUsuario(
+            id INTEGER PRIMARY KEY,
+            usuario TEXT NOT NULL,
+            senha TEXT NOT NULL
+          )
+        ''');
+      },
     );
     return database;
+  }
+
+  Future<void> novoUsuario({required UsuarioModel contato}) async {
+    final db = await database;
+    print(db);
+
+    db.insert(
+      nomeDaTabelaUsuario,
+      {
+        "usuario": contato.usuario,
+        "senha": contato.senha,
+      },
+    );
+  }
+
+  Future<bool> verificarLogin({required UsuarioModel usuarioModel}) async {
+    final db = await database;
+
+    final resultado = await db.query(
+      nomeDaTabelaUsuario,
+      where: 'usuario = ? AND senha = ?',
+      whereArgs: [usuarioModel.usuario, usuarioModel.senha],
+    );
+    return resultado.isNotEmpty;
   }
 
   void novoContato({required ContatoModel contato}) async {
