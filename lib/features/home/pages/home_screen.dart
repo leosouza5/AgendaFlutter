@@ -1,7 +1,9 @@
 import 'package:agenda/features/contato/controller/contato_controller.dart';
 import 'package:agenda/features/contato/pages/contato_screen.dart';
 import 'package:agenda/features/home/components/contato.dart';
+import 'package:agenda/features/telaDeLogin/pages/tela_login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +32,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: const Color(0xFF213435),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                final FlutterSecureStorage storage = FlutterSecureStorage();
+                await storage.delete(key: 'token');
+
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TelaLogin(),
+                    ));
+              },
+              icon: Icon(Icons.logout, color: Colors.white))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

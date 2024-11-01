@@ -3,6 +3,7 @@ import 'package:agenda/features/home/pages/home_screen.dart';
 import 'package:agenda/features/telaDeLogin/controller/auth_controller.dart';
 import 'package:agenda/features/telaDeLogin/pages/tela_cadastro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,8 +22,10 @@ class _TelaLoginState extends State<TelaLogin> {
   }
 
   Future<void> verificarLogin() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();   === TROCADO POR SECURE STORAGE
+    // final String? token = prefs.getString('token');
+    final storage = FlutterSecureStorage();
+    final String? token = await storage.read(key: 'token');
 
     if (token != null && token.isNotEmpty) {
       Navigator.pushReplacement(

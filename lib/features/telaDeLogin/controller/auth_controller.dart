@@ -2,7 +2,9 @@ import 'package:agenda/features/home/pages/home_screen.dart';
 import 'package:agenda/features/telaDeLogin/model/usuario_model.dart';
 import 'package:agenda/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class AuthController extends ChangeNotifier {
   GlobalKey<FormState> formCadastro = GlobalKey<FormState>();
@@ -46,8 +48,13 @@ class AuthController extends ChangeNotifier {
         if (await db.verificarLogin(
           usuarioModel: UsuarioModel(usuario: controllerUsuarioLogin.text, senha: controllerSenhaLogin.text),
         )) {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('token', controllerUsuarioLogin.text);
+          // final SharedPreferences prefs = await SharedPreferences.getInstance();
+          // await prefs.setString('token', controllerUsuarioLogin.text);    ----- ALTERADO PARA SECURE STORAGE AGORA
+          final Uuid uuid = Uuid();
+
+          final storage = FlutterSecureStorage();
+          await storage.write(key: 'token', value: uuid.v4());
+          print(await storage.read(key: 'token'));
 
           controllerUsuarioLogin.clear();
           controllerSenhaLogin.clear();
